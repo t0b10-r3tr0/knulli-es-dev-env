@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# USER-PROVIDED CONFIGURATIONSETTINGS BEGIN >>>>>
+# USER-PROVIDED CONFIGURATION SETTINGS BEGIN >>>>>
 
 # Local environment (should point to the directory this repository was cloned into.)
 BASE_DIR=/home/ryan/source/knulli-es-dev-env
