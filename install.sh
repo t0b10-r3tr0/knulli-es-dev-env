@@ -65,18 +65,17 @@ git fetch origin
 
 # set up our base branch
 git checkout -b $ES_FORK_GIT_BRANCH
-# git commit -m "Initial commit."
-# git push --set-upstream origin $ES_FORK_GIT_BRANCH
+git commit -m "Initial commit."
+git push --set-upstream origin $ES_FORK_GIT_BRANCH
 
 # setup our testing branch
 git checkout -b "$ES_FORK_GIT_TESTING_BRANCH"
-# git commit -m "Initial commit."
-# git push --set-upstream "$ES_FORK_GIT_TESTING_BRANCH"
+git commit -m "Initial commit."
+git push --set-upstream origin "$ES_FORK_GIT_TESTING_BRANCH"
 
 # EMULATIONSTATION <<<<<
 
 # IN PROGRESS
-
 sed -i "s|^BATOCERA_EMULATIONSTATION_SITE = .*|BATOCERA_EMULATIONSTATION_SITE = $EMULATIONSTATION_FORK_REPO|" $BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME/package/batocera/emulationstation/batocera-emulationstation/batocera-emulationstation.mk
 sed -i "s|^BATOCERA_EMULATIONSTATION_VERSION = .*|BATOCERA_EMULATIONSTATION_VERSION = $ES_FORK_GIT_TESTING_BRANCH|" $BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME/package/batocera/emulationstation/batocera-emulationstation/batocera-emulationstation.mk
 
