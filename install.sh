@@ -11,12 +11,11 @@ apply_git_settings() {
 
 # Dependencies
 echo "Now installing dependencies..."
-sudo apt update && sudo apt install -y build-essential gettext
+sudo apt update && sudo apt install -y build-essential gettext docker.io
 mkdir -p $BASE_DIR
 cd $BASE_DIR || exit
 
 apply_git_settings
-
 
 # DISTRIBUTION >>>>>
 echo "Now cloning distribution..."
@@ -27,7 +26,7 @@ apply_git_settings
 
 # set up our base branch
 git checkout -b $DISTRO_FORK_BRANCH
-touch .initial-setup
+# touch .initial-setup
 # git commit -m "Initial commit."
 # git push --set-upstream origin $DISTRO_FORK_BRANCH
 
@@ -39,8 +38,10 @@ git checkout -b "$DISTRO_FORK_TESTING_BRANCH" "origin/$DISTRO_FORK_BRANCH"
 
 # ES image creation
 echo "Now creating Docker build environment..."
+cd $BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME
 ./getPoFromWebsite.sh
-make build-docker-image || echo "Docker image build failed. ☹️" && exit
+make build-docker-image # || echo "Docker image build failed. ☹️" && exit
+                        # TODO: find different way to check for success (maybe docker container ls)
 
 # download all sources prior to build
 echo "Now downloading all sources..."
@@ -48,7 +49,7 @@ make h700-source || echo "Downloading sources failed. ☹️" && exit
 
 # build the ES package with the new container
 echo "Now building EmulationStation package..."
-make h700-pkg PKG=batocera-emulationstation || echo "Build failed. ☹️" && exit
+make h700-pkg PKG=knulli-emulationstation || echo "Build failed. ☹️" && exit
 echo
 echo "Build Complete... 🔥"
 echo
@@ -65,17 +66,17 @@ git fetch origin
 
 # set up our base branch
 git checkout -b $ES_FORK_GIT_BRANCH
-git commit -m "Initial commit."
-git push --set-upstream origin $ES_FORK_GIT_BRANCH
-
+# git commit -m "Initial commit."
+# git push --set-upstream origin $ES_FORK_GIT_BRANCH
+#
 # setup our testing branch
 git checkout -b "$ES_FORK_GIT_TESTING_BRANCH"
-git commit -m "Initial commit."
-git push --set-upstream origin "$ES_FORK_GIT_TESTING_BRANCH"
-
+# git commit -m "Initial commit."
+# git push --set-upstream origin "$ES_FORK_GIT_TESTING_BRANCH"
+#
 # EMULATIONSTATION <<<<<
 
 # IN PROGRESS
-sed -i "s|^BATOCERA_EMULATIONSTATION_SITE = .*|BATOCERA_EMULATIONSTATION_SITE = $EMULATIONSTATION_FORK_REPO|" $BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME/package/batocera/emulationstation/batocera-emulationstation/batocera-emulationstation.mk
-sed -i "s|^BATOCERA_EMULATIONSTATION_VERSION = .*|BATOCERA_EMULATIONSTATION_VERSION = $ES_FORK_GIT_TESTING_BRANCH|" $BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME/package/batocera/emulationstation/batocera-emulationstation/batocera-emulationstation.mk
-
+sed -i "s|^KNULLI_EMULATIONSTATION_SITE = .*|KNULLI_EMULATIONSTATION_SITE = $EMULATIONSTATION_FORK_REPO|" $BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME/package/knulli/knulli-emulationstation/knulli-emulationstation.mk
+sed -i "s|^KNULLI_EMULATIONSTATION_VERSION = .*|KNULLI_EMULATIONSTATION_VERSION = $ES_FORK_GIT_TESTING_BRANCH|" $BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME/package/knulli/knulli-emulationstation/knulli-emulationstation.mk
+#
