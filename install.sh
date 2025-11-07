@@ -11,7 +11,7 @@ apply_git_settings() {
 
 # # Dependencies
 echo "Now installing dependencies..."
-sudo apt update && sudo apt install -y build-essential gettext docker.io
+sudo apt update && sudo apt install -y build-essential gettext
 
 mkdir -p $BASE_DIR
 cd $BASE_DIR || exit
