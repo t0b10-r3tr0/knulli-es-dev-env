@@ -19,7 +19,7 @@ apply_git_settings
 
 # # DISTRIBUTION >>>>>
 if [ -d "$BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME" ]; then
-    echo "$BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME already exists - skipping git cloning."
+    echo "$BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME already exists - skipping git cloning distribution."
 else
     echo "Now cloning distribution..."
     git clone --recursive $DISTRIBUTION_FORK_REPO".git" $LOCAL_DISTRIBUTION_DIR_NAME
@@ -80,7 +80,13 @@ echo
 
 # EMULATIONSTATION >>>>>
 cd $BASE_DIR
-git clone --recursive $EMULATIONSTATION_FORK_REPO $LOCAL_EMULATIONSTATION_DIR_NAME
+
+if [ -d "$BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME" ]; then
+    echo "$BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME already exists - skipping git cloning emulationstation."
+else
+    echo "Now cloning emulationstation..."
+    git clone --recursive $EMULATIONSTATION_FORK_REPO".git" $LOCAL_EMULATIONSTATION_DIR_NAME
+fi
 
 # move to base directory and set git credentials
 cd $BASE_DIR/$LOCAL_EMULATIONSTATION_DIR_NAME || exit
@@ -111,7 +117,7 @@ if [[ $EXIT_CODE == '0' ]]; then
     git checkout $ES_FORK_GIT_TESTING_BRANCH
 elif [[ $EXIT_CODE == '2' ]]; then
     echo "Git branch '$ES_FORK_GIT_TESTING_BRANCH' does not exist in the remote repository."
-    git checkout -b "$ES_FORK_GIT_TESTING_BRANCH" "origin/$ES_FORK_GIT_BRANCH"
+    git checkout -b "$ES_FORK_GIT_TEcd STING_BRANCH" "origin/$ES_FORK_GIT_BRANCH"
     git commit -m "Initial commit."
     git push --set-upstream origin "$ES_FORK_GIT_TESTING_BRANCH"
 fi
