@@ -124,5 +124,5 @@ fi
 # EMULATIONSTATION <<<<<
 
 # IN PROGRESS
-sed -i "s|^KNULLI_EMULATIONSTATION_SITE = .*|KNULLI_EMULATIONSTATION_SITE = $EMULATIONSTATION_FORK_REPO|" $BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME/package/knulli/knulli-emulationstation/knulli-emulationstation.mk
-sed -i "s|^KNULLI_EMULATIONSTATION_VERSION = .*|KNULLI_EMULATIONSTATION_VERSION = $ES_FORK_GIT_TESTING_BRANCH|" $BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME/package/knulli/knulli-emulationstation/knulli-emulationstation.mk
+sed -i "s|^KNULLI_EMULATIONSTATION_SITE = .*|KNULLI_EMULATIONSTATION_SITE = $EMULATIONSTATION_FORK_REPO|" $BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME/package/emulationstation/knulli-emulationstation/knulli-emulationstation.mk
+sed -i "s|^KNULLI_EMULATIONSTATION_VERSION = .*|KNULLI_EMULATIONSTATION_VERSION = $ES_FORK_GIT_TESTING_BRANCH|" $BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME/package/emulationstation/knulli-emulationstation/knulli-emulationstation.mk
