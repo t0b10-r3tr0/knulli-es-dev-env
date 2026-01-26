@@ -20,41 +20,49 @@ apply_git_settings
 # # DISTRIBUTION >>>>>
 if [ -d "$BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME" ]; then
     echo "$BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME already exists - skipping git cloning distribution."
+
+    # move to base directory and set git credentials
+    cd $BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME || exit
+    apply_git_settings
+    git fetch origin
 else
     echo "Now cloning distribution..."
     git clone --recursive $DISTRIBUTION_FORK_REPO".git" $LOCAL_DISTRIBUTION_DIR_NAME
-fi
-cd $BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME || exit
-apply_git_settings
-git fetch origin
 
-# set up our base branch
-git ls-remote --exit-code --heads origin $DISTRO_FORK_BRANCH >/dev/null 2>&1
-EXIT_CODE=$?
+    # move to base directory and set git credentials
+    cd $BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME || exit
+    apply_git_settings
+    git fetch origin
 
-if [[ $EXIT_CODE == '0' ]]; then
-    echo "Git branch '$DISTRO_FORK_BRANCH' exists in the remote repository"
-    git checkout $DISTRO_FORK_BRANCH
-elif [[ $EXIT_CODE == '2' ]]; then
-    echo "Git branch '$DISTRO_FORK_BRANCH' does not exist in the remote repository."
-    git checkout -b $DISTRO_FORK_BRANCH
-    touch .initial-setup
-    git commit -m "Initial commit."
-    git push --set-upstream origin $DISTRO_FORK_BRANCH
-fi
+    # set up our base branch
+    git ls-remote --exit-code --heads origin $DISTRO_FORK_BRANCH >/dev/null 2>&1
+    EXIT_CODE=$?
 
-# set up our base branch
-git ls-remote --exit-code --heads origin $DISTRO_FORK_TESTING_BRANCH >/dev/null 2>&1
-EXIT_CODE=$?
+    if [[ $EXIT_CODE == '0' ]]; then
+        echo "Git branch '$DISTRO_FORK_BRANCH' exists in the remote repository"
+        git checkout $DISTRO_FORK_BRANCH
+    elif [[ $EXIT_CODE == '2' ]]; then
+        echo "Git branch '$DISTRO_FORK_BRANCH' does not exist in the remote repository."
+        git checkout -b $DISTRO_FORK_BRANCH
+        touch .initial-setup
+        git commit -m "Initial commit."
+        git push --set-upstream origin $DISTRO_FORK_BRANCH
+    fi
 
-if [[ $EXIT_CODE == '0' ]]; then
-    echo "Git branch '$DISTRO_FORK_TESTING_BRANCH' exists in the remote repository"
-    git checkout $DISTRO_FORK_TESTING_BRANCH
-elif [[ $EXIT_CODE == '2' ]]; then
-    echo "Git branch '$DISTRO_FORK_TESTING_BRANCH' does not exist in the remote repository."
-    git checkout -b "$DISTRO_FORK_TESTING_BRANCH" "origin/$DISTRO_FORK_BRANCH"
-    git commit -m "Initial commit."
-    git push --set-upstream origin "$DISTRO_FORK_TESTING_BRANCH"
+    # set up our base branch
+    git ls-remote --exit-code --heads origin $DISTRO_FORK_TESTING_BRANCH >/dev/null 2>&1
+    EXIT_CODE=$?
+
+    if [[ $EXIT_CODE == '0' ]]; then
+        echo "Git branch '$DISTRO_FORK_TESTING_BRANCH' exists in the remote repository"
+        git checkout $DISTRO_FORK_TESTING_BRANCH
+    elif [[ $EXIT_CODE == '2' ]]; then
+        echo "Git branch '$DISTRO_FORK_TESTING_BRANCH' does not exist in the remote repository."
+        git checkout -b "$DISTRO_FORK_TESTING_BRANCH" "origin/$DISTRO_FORK_BRANCH"
+        git commit -m "Initial commit."
+        git push --set-upstream origin "$DISTRO_FORK_TESTING_BRANCH"
+    fi
+
 fi
 
 # ES image creation
@@ -77,50 +85,57 @@ echo "Build Complete... 🔥"
 echo
 # DISTRIBUTION <<<<<
 
-
 # EMULATIONSTATION >>>>>
 cd $BASE_DIR
 
 if [ -d "$BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME" ]; then
     echo "$BASE_DIR/$LOCAL_DISTRIBUTION_DIR_NAME already exists - skipping git cloning emulationstation."
+
+    # move to base directory and set git credentials
+    cd $BASE_DIR/$LOCAL_EMULATIONSTATION_DIR_NAME || exit
+    apply_git_settings
+    git fetch origin
 else
     echo "Now cloning emulationstation..."
     git clone --recursive $EMULATIONSTATION_FORK_REPO".git" $LOCAL_EMULATIONSTATION_DIR_NAME
+    
+    # move to base directory and set git credentials
+    cd $BASE_DIR/$LOCAL_EMULATIONSTATION_DIR_NAME || exit
+    apply_git_settings
+    git fetch origin
+
+
+    # set up our base branch
+    git ls-remote --exit-code --heads origin $ES_FORK_GIT_BRANCH >/dev/null 2>&1
+    EXIT_CODE=$?
+
+    if [[ $EXIT_CODE == '0' ]]; then
+        echo "Git branch '$ES_FORK_GIT_BRANCH' exists in the remote repository"
+        git checkout $ES_FORK_GIT_BRANCH
+    elif [[ $EXIT_CODE == '2' ]]; then
+        echo "Git branch '$ES_FORK_GIT_BRANCH' does not exist in the remote repository."
+        git checkout -b $ES_FORK_GIT_BRANCH
+        touch .initial-setup
+        git commit -m "Initial commit."
+        git push --set-upstream origin $ES_FORK_GIT_BRANCH
+    fi
+
+    # set up our base branch
+    git ls-remote --exit-code --heads origin $ES_FORK_GIT_TESTING_BRANCH >/dev/null 2>&1
+    EXIT_CODE=$?
+
+    if [[ $EXIT_CODE == '0' ]]; then
+        echo "Git branch '$ES_FORK_GIT_TESTING_BRANCH' exists in the remote repository"
+        git checkout $ES_FORK_GIT_TESTING_BRANCH
+    elif [[ $EXIT_CODE == '2' ]]; then
+        echo "Git branch '$ES_FORK_GIT_TESTING_BRANCH' does not exist in the remote repository."
+        git checkout -b "$ES_FORK_GIT_TEcd STING_BRANCH" "origin/$ES_FORK_GIT_BRANCH"
+        git commit -m "Initial commit."
+        git push --set-upstream origin "$ES_FORK_GIT_TESTING_BRANCH"
+    fi
+
 fi
 
-# move to base directory and set git credentials
-cd $BASE_DIR/$LOCAL_EMULATIONSTATION_DIR_NAME || exit
-apply_git_settings
-git fetch origin
-
-# set up our base branch
-git ls-remote --exit-code --heads origin $ES_FORK_GIT_BRANCH >/dev/null 2>&1
-EXIT_CODE=$?
-
-if [[ $EXIT_CODE == '0' ]]; then
-    echo "Git branch '$ES_FORK_GIT_BRANCH' exists in the remote repository"
-    git checkout $ES_FORK_GIT_BRANCH
-elif [[ $EXIT_CODE == '2' ]]; then
-    echo "Git branch '$ES_FORK_GIT_BRANCH' does not exist in the remote repository."
-    git checkout -b $ES_FORK_GIT_BRANCH
-    touch .initial-setup
-    git commit -m "Initial commit."
-    git push --set-upstream origin $ES_FORK_GIT_BRANCH
-fi
-
-# set up our base branch
-git ls-remote --exit-code --heads origin $ES_FORK_GIT_TESTING_BRANCH >/dev/null 2>&1
-EXIT_CODE=$?
-
-if [[ $EXIT_CODE == '0' ]]; then
-    echo "Git branch '$ES_FORK_GIT_TESTING_BRANCH' exists in the remote repository"
-    git checkout $ES_FORK_GIT_TESTING_BRANCH
-elif [[ $EXIT_CODE == '2' ]]; then
-    echo "Git branch '$ES_FORK_GIT_TESTING_BRANCH' does not exist in the remote repository."
-    git checkout -b "$ES_FORK_GIT_TEcd STING_BRANCH" "origin/$ES_FORK_GIT_BRANCH"
-    git commit -m "Initial commit."
-    git push --set-upstream origin "$ES_FORK_GIT_TESTING_BRANCH"
-fi
 # EMULATIONSTATION <<<<<
 
 # IN PROGRESS
