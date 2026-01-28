@@ -15,8 +15,8 @@ To start working on Knulli EmulationStation, you need to set up a Linux system. 
 Whatever Linux setup you chose, make sure that *Docker* is also up and running before you proceed.
 
 Next, make sure that you have a GitHub account and have forked the two repositories required to work on Knulli EmulationStation:
-* A fork of the [Knulli Distribution repository](https://github.com/knulli-cfw/distribution).
-* A fork of the [Knulli EmulationStation repository](https://github.com/knulli-cfw/
+* A fork of the [Knulli Linux repository](https://github.com/knulli-cfw/knulli-linux).
+* A fork of the [Knulli EmulationStation repository](https://github.com/knulli-cfw/batocera-emulationstation)
 
 ### Clone the Repository
 First, navigate to the folder where you would like to set up your Knulli development environment. (In the following example, we assume you chose `/home/chrizzo/dev`).
@@ -44,11 +44,11 @@ GIT_EMAIL=chrizzo-hb@null.void # don't put your real email here unless you want 
 # device login
 DEVICE_LOGIN=root@knulli
 
-# Repository configuration for distribution and emulationstation, local directories configuration
+# Repository configuration for knulli linux and emulationstation, local directories configuration
 # Note: URLs should point to YOUR FORKS of the respective repositories
-DISTRIBUTION_FORK_REPO=https://github.com/chrizzo-hb/knulli-distribution
+DISTRIBUTION_FORK_REPO=https://github.com/chrizzo-hb/knulli-linux
 EMULATIONSTATION_FORK_REPO=https://github.com/chrizzo-hb/knulli-emulationstation
-LOCAL_DISTRIBUTION_DIR_NAME=knulli-distribution
+LOCAL_DISTRIBUTION_DIR_NAME=knulli-linux
 LOCAL_EMULATIONSTATION_DIR_NAME=knulli-emulationstation
 
 # Project Information
@@ -61,6 +61,7 @@ DISTRO_FORK_BRANCH=$FEATURE_BRANCH_NAME
 DISTRO_FORK_TESTING_BRANCH=${FEATURE_BRANCH_NAME}_${TEST_BRANCH_SUFFIX}
 ES_FORK_GIT_BRANCH=$FEATURE_BRANCH_NAME
 ES_FORK_GIT_TESTING_BRANCH=${FEATURE_BRANCH_NAME}_${TEST_BRANCH_SUFFIX}
+
 ```
 ### Run the install script
 
@@ -76,7 +77,7 @@ to begin the installation process. **This might take some time.** Maybe even hou
 
 After successful installation, you will find that your Knulli development folder has been populated with
 
-* `knulli-distribution/` where the Knulli *distribution* resides - a folder required for *compiling*
+* `knulli-linux/` where the *Knulli Linux* resides - a folder required for *compiling*
 * `knulli-emulationstation/` where the Knulli *EmulationStation* source code resides - this is where you will edit your code.
 * `tools/` where you will find two important commands
     * `build.sh` makes sure the compilation process will integrate the branch you are currently using in `knulli-emulationstation` in the compilation process before starting to compile *EmulationStation* against the target architecture of your choice as indicated by the `TARGET` setting in `settings.conf`
